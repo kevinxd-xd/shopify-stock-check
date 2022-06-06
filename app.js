@@ -11,7 +11,7 @@ client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-    const command = rquire(`./commands/${file}`);
+    const command = require(`./commands/${file}`);
     client.commands.set(command.data.name, command);
 }
 
@@ -23,7 +23,7 @@ client.once('ready', () => {
 // Checking for events/interactions
 
 client.on('interactionCreate', async interaction => {
-    if (interaction.isCommand()) {
+    if (!interaction.isCommand()) {
         return;
     }
 
@@ -43,4 +43,4 @@ client.on('interactionCreate', async interaction => {
 
 });
 
-client.login(token);
+client.login(process.env.DISCORD_TOKEN);

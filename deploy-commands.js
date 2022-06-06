@@ -8,7 +8,6 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
-    console.log(command.data.toJSON());
     commands.push(command.data.toJSON());
 }
 
