@@ -18,7 +18,7 @@ module.exports = {
         const prdSRC = await reqsrc.getSource(linkOption);
         // Checks if the return value is valid text
         if (!prdSRC) {
-            await interaction.reply("This was not a valid link!");
+            await interaction.reply("An error occured while processing your request");
         }
         else {
             await prdSRC.parseVariants();

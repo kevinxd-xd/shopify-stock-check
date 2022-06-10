@@ -1,7 +1,7 @@
 module.exports = class Product {
     constructor(url, src) {
         this.URL = url;
-        this.source = JSON.parse(src);
+        this.source = src;
         this.vars = [];
         this.subnames = [];
         this.pic = this.source.media[0].src;
