@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, MessageAttachment } = require('discord.js');
-const reqsrc = require('../lib/requestsource.js');
 const stkEmbed = require('../embeds/stockembed.js');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+require('dotenv').config();
 
 module.exports = {
     // Build the slash command
@@ -13,19 +13,19 @@ module.exports = {
                 .setDescription('The link to the product')
                 .setRequired(true)),
     async execute(interaction) {
-        const linkOption = interaction.options.getString('link');
-        // Returns a product object with URL and source code
-        const prdSRC = await reqsrc.getSource(linkOption);
-        // Checks if the return value is valid text
-        if (!prdSRC) {
-            await interaction.reply("An error occured while processing your request");
+        const apiLink = process.env.STORES_API + encodeURIComponent(interaction.options.getString('link'));
+        try {
+            const prdSRC = await fetch(apiLink);
+            if (!prdSRC) {
+                await interaction.reply("An error occured while processing your request");
+            }
+            else {
+                const embedSend = stkEmbed.buildProductEmbed(await prdSRC.json());
+                await interaction.reply({ embeds: [embedSend] });
+            }
         }
-        else {
-            await prdSRC.parseVariants();
-            await prdSRC.parseSubNames();
-            // Parse through the file
-            const embedSend = stkEmbed.buildProductEmbed(prdSRC);
-            await interaction.reply({ embeds: [embedSend] });
+        catch (error) {
+            await interaction.reply("An error occured while processing your request");
         }
     }
 }
