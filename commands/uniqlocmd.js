@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const stkEmbed = require('../embeds/shopifyembed.js');
+const uniqloEmbed = require('../embeds/uniqloembed.js');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 require('dotenv').config();
 
@@ -24,11 +24,13 @@ module.exports = {
                 await interaction.reply("An error occured while processing your request");
             }
             else {
-                console.log(await prdSRC.json());
-                await interaction.reply("Success!");
+                const jsonconvert = await prdSRC.json();
+                const embedSend = uniqloEmbed.buildProductEmbed(jsonconvert);
+                await interaction.reply({ embeds: [embedSend] });
             }
         }
         catch (error) {
+            console.error(error);
             await interaction.reply("An error occured while processing your request");
         }
     }
