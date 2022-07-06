@@ -17,7 +17,7 @@ module.exports = {
             await interaction.reply("Please enter the PID of the product, not a link!");
             return;
         }
-        const apiLink = process.env.STORES_API + "uniqlo?pid=" + interaction.options.getString('pid');
+        const apiLink = process.env.STORES_API + "/api/uniqlo?pid=" + interaction.options.getString('pid');
         try {
             const prdSRC = await fetch(apiLink);
             if (!prdSRC) {

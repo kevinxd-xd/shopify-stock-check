@@ -13,7 +13,7 @@ module.exports = {
                 .setDescription('The link to the product')
                 .setRequired(true)),
     async execute(interaction) {
-        const apiLink = process.env.STORES_API + "shopify?url=" + encodeURIComponent(interaction.options.getString('link'));
+        const apiLink = process.env.STORES_API + "/api/shopify?url=" + encodeURIComponent(interaction.options.getString('link'));
         try {
             const prdSRC = await fetch(apiLink);
             if (!prdSRC) {
