@@ -16,8 +16,8 @@ module.exports = {
         const apiLink = process.env.STORES_API + "/api/shopify?url=" + encodeURIComponent(interaction.options.getString('link'));
         try {
             const prdSRC = await fetch(apiLink);
-            if (!prdSRC) {
-                await interaction.reply("An error occured while processing your request");
+            if (prdSRC.status != 200) {
+                await interaction.reply(`Response Status Code: ${prdSRC.status}\nA bad request was made!`);
             }
             else {
                 const embedSend = stkEmbed.buildProductEmbed(await prdSRC.json());
