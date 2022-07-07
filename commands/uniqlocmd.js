@@ -18,20 +18,21 @@ module.exports = {
             return;
         }
         const apiLink = process.env.STORES_API + "/api/uniqlo?pid=" + interaction.options.getString('pid');
+        await interaction.deferReply();
         try {
             const prdSRC = await fetch(apiLink);
             if (prdSRC.status != 200) {
-                await interaction.reply(`Response Status Code: ${prdSRC.status}\nA bad request was made!`);
+                await interaction.editReply(`Response Status Code: ${prdSRC.status}\nA bad request was made!`);
             }
             else {
                 const jsonconvert = await prdSRC.json();
                 const embedSend = uniqloEmbed.buildProductEmbed(jsonconvert);
-                await interaction.reply({ embeds: [embedSend] });
+                await interaction.editReply({ embeds: [embedSend] });
             }
         }
         catch (error) {
             console.error(error);
-            await interaction.reply("An error occured while processing your request");
+            await interaction.editReply("An error occured while processing your request");
         }
     }
 }
