@@ -4,8 +4,8 @@ module.exports = {
     buildProductEmbed(prd) {
         const embed = new MessageEmbed()
         .setColor("GREEN")
-        .setTitle(prd.prodName)
-        .setThumbnail(prd.pic)
+        .setTitle(prd.prodname)
+        .setThumbnail(prd.picurl)
         .setTimestamp();
         for (let i = 0; i < prd.subnames.length; i++) {
             const link = prd.URL + "?variant=" + prd.vars[i];

@@ -25,6 +25,7 @@ module.exports = {
             }
         }
         catch (error) {
+            console.error(error.stack);
             await interaction.reply("An error occured while processing your request");
         }
     }
